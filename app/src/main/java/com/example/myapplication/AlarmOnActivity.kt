@@ -33,7 +33,7 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         var button:Button = findViewById(R.id.stopbutton)
 
         button.setOnClickListener {
-            mp.stop()
+//            mp.stop()
 //            this.finish()
             val intent = Intent(this,ObjectDetection::class.java)
             startActivity(intent)

@@ -100,7 +100,7 @@ class ObjectDetection : AppCompatActivity() {
                 val locations = outputs.locationsAsTensorBuffer.floatArray
                 val classes = outputs.classesAsTensorBuffer.floatArray
                 val scores = outputs.scoresAsTensorBuffer.floatArray
-                val numberOfDetections = outputs.numberOfDetectionsAsTensorBuffer.floatArray
+//                val numberOfDetections = outputs.numberOfDetectionsAsTensorBuffer.floatArray
 
                 var mutable = bitmap.copy(Bitmap.Config.ARGB_8888,true)
                 val canvas = Canvas(mutable)
@@ -113,7 +113,7 @@ class ObjectDetection : AppCompatActivity() {
                 scores.forEachIndexed { index, fl ->
                     x = index
                     x *= 4
-                    if(fl > 0.5){ // if confidence greater than 50%
+                    if(fl > 0.6){ // if confidence greater than 60%
                         Toast.makeText(applicationContext,  "search for keyboard", Toast.LENGTH_SHORT).show()
                         paint.setColor(colors.get(index))
                         paint.style = Paint.Style.STROKE
@@ -123,7 +123,7 @@ class ObjectDetection : AppCompatActivity() {
                         val textToExtract = labels.get(classes.get(index).toInt())
                         if(textToExtract == "keyboard"){
                             Toast.makeText(applicationContext, "$textToExtract found", Toast.LENGTH_SHORT).show()
-//                            mp.stop()
+                            mp.stop()
                             model.close()
                             finish()
                         }
