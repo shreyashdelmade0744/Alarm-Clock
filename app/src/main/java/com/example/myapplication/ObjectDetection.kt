@@ -22,7 +22,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.view.Surface
 import android.view.TextureView
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
@@ -45,6 +47,9 @@ class ObjectDetection : AppCompatActivity() {
         Color.DKGRAY, Color.MAGENTA, Color.YELLOW, Color.RED)
 
     val paint = Paint()
+
+    lateinit var randomButton : Button
+    lateinit var randomText : TextView
     lateinit var imageProcessor : ImageProcessor
     lateinit var bitmap : Bitmap
     lateinit var imageview : ImageView
@@ -53,6 +58,7 @@ class ObjectDetection : AppCompatActivity() {
     lateinit var textureview : TextureView
     lateinit var cameramanager : CameraManager
     lateinit var model:SsdMobilenetV11Metadata1
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_object_detection)
@@ -61,6 +67,7 @@ class ObjectDetection : AppCompatActivity() {
         mp.isLooping = true
 
         get_permission()
+        randomButton = findViewById(R.id.randomButton)
         val entities = arrayListOf(
             "person",
             "bicycle",
@@ -138,7 +145,8 @@ class ObjectDetection : AppCompatActivity() {
             "toothbrush"
         )
         val size = entities.size
-        val randomIndex = Random.nextInt(size)
+        randomText = findViewById(R.id.randomText)
+        var randomIndex = Random.nextInt(size)
         labels = FileUtil.loadLabels(this,"labels.txt")
         imageProcessor = ImageProcessor.Builder().add(ResizeOp(300,300,ResizeOp.ResizeMethod.BILINEAR)).build()
         model = SsdMobilenetV11Metadata1.newInstance(this)
@@ -190,7 +198,15 @@ class ObjectDetection : AppCompatActivity() {
                     x = index
                     x *= 4
                     if(fl > 0.6){ // if confidence greater than 60%
-                        Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
+                        randomText.text=entities[randomIndex].toString()
+                        randomButton.setOnClickListener {
+                            randomIndex = Random.nextInt(size)
+                            randomText.text=entities[randomIndex].toString()
+
+//                            Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
+
+                        }
                         paint.setColor(colors.get(index))
                         paint.style = Paint.Style.STROKE
                         canvas.drawRect(RectF(locations.get(x+1)*w, locations.get(x)*h, locations.get(x+3)*w, locations.get(x+2)*h), paint)
@@ -199,6 +215,7 @@ class ObjectDetection : AppCompatActivity() {
                         val textToExtract = labels.get(classes.get(index).toInt())
                         if(textToExtract == entities[randomIndex]){
                             Toast.makeText(applicationContext, "$textToExtract found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, "Alarm Stopped", Toast.LENGTH_SHORT).show()
                             mp.stop()
                             mp.release()
                             model.close()
