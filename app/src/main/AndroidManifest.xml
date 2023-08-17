@@ -3,10 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-<!--    <uses-permission android:name=""-->
-    <uses-feature android:name="android.hardware.sensor.accelerometer"
-        android:required="true"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="" -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".ObjectDetection"
+            android:exported="false" />
         <activity
             android:name=".AlarmOnActivity"
             android:exported="false" />

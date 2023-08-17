@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -33,7 +34,9 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
 
         button.setOnClickListener {
             mp.stop()
-            this.finish()
+//            this.finish()
+            val intent = Intent(this,ObjectDetection::class.java)
+            startActivity(intent)
             }
 
     }
