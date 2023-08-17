@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Alarm Clock</string>
     <string name="set_alarm">Set Alarm</string>
     <string name="enter_the_time">Enter The Time</string>
     <string name="set_alarme">Set Alarm</string>

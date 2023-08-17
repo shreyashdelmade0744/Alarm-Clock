@@ -37,6 +37,8 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
 //            this.finish()
             val intent = Intent(this,ObjectDetection::class.java)
             startActivity(intent)
+//            mp.stop()
+
             }
 
     }
@@ -56,6 +58,7 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         if (!buttonPressed && acceleration > accelerationThreshold) {
             button.performClick()
             buttonPressed = true
+
         } else if (buttonPressed && acceleration < accelerationThreshold) {
             buttonPressed = false
         }
@@ -69,34 +72,4 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         return Math.sqrt((x * x + y * y + z * z).toDouble()).toFloat()
     }
 }
-//import android.content.Context
-//import android.hardware.Sensor
-//import android.hardware.SensorEvent
-//import android.hardware.SensorEventListener
-//import android.hardware.SensorManager
-//import android.os.Bundle
-//import android.view.View
-//import android.widget.Button
-//import androidx.appcompat.app.AppCompatActivity
-//
-//class MainActivity : AppCompatActivity(), SensorEventListener {
-//
-//
-//    private lateinit var triggerButton: Button
-//
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//
-//
-//
-//        triggerButton = findViewById(R.id.triggerButton)
-//
-//        triggerButton.setOnClickListener {
-//            // Button click action
-//        }
-//    }
-//
-//
-//}
+

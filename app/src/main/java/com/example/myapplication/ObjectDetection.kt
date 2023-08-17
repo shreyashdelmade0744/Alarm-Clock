@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+//import android.media.MediaPlayer
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,6 +14,7 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
 import android.hardware.camera2.CameraManager
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.FileUtils
@@ -21,6 +23,7 @@ import android.os.HandlerThread
 import android.view.Surface
 import android.view.TextureView
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -32,6 +35,7 @@ import org.tensorflow.lite.support.image.ops.ResizeOp
 import java.lang.reflect.Method
 
 class ObjectDetection : AppCompatActivity() {
+
 
     lateinit var labels:List<String>
 
@@ -51,9 +55,10 @@ class ObjectDetection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_object_detection)
+        val mp = MediaPlayer.create(applicationContext, R.raw.alarm)
+        mp.start()
+
         get_permission()
-
-
 
         labels = FileUtil.loadLabels(this,"labels.txt")
         imageProcessor = ImageProcessor.Builder().add(ResizeOp(300,300,ResizeOp.ResizeMethod.BILINEAR)).build()
@@ -109,11 +114,19 @@ class ObjectDetection : AppCompatActivity() {
                     x = index
                     x *= 4
                     if(fl > 0.5){ // if confidence greater than 50%
+                        Toast.makeText(applicationContext,  "search for keyboard", Toast.LENGTH_SHORT).show()
                         paint.setColor(colors.get(index))
                         paint.style = Paint.Style.STROKE
                         canvas.drawRect(RectF(locations.get(x+1)*w, locations.get(x)*h, locations.get(x+3)*w, locations.get(x+2)*h), paint)
                         paint.style = Paint.Style.FILL
                         canvas.drawText(labels.get(classes.get(index).toInt())+" "+fl.toString(), locations.get(x+1)*w, locations.get(x)*h, paint)
+                        val textToExtract = labels.get(classes.get(index).toInt())
+                        if(textToExtract == "keyboard"){
+                            Toast.makeText(applicationContext, "$textToExtract found", Toast.LENGTH_SHORT).show()
+//                            mp.stop()
+                            model.close()
+                            finish()
+                        }
                     }
                 }
 
