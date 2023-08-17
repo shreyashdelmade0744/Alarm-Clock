@@ -1,6 +1,8 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -8,17 +10,23 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
+
+
+
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
     private var buttonPressed = false
     private lateinit var button : Button
 //    private lateinit var button: Button
     private val accelerationThreshold = 50.0f // Adjust this value based on sensitivity
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
