@@ -33,6 +33,7 @@ import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import java.lang.reflect.Method
+import kotlin.random.Random
 
 class ObjectDetection : AppCompatActivity() {
 
@@ -57,9 +58,93 @@ class ObjectDetection : AppCompatActivity() {
         setContentView(R.layout.activity_object_detection)
         val mp = MediaPlayer.create(applicationContext, R.raw.alarm)
         mp.start()
+        mp.isLooping = true
 
         get_permission()
-
+        val entities = arrayListOf(
+            "person",
+            "bicycle",
+            "car",
+            "motorcycle",
+            "airplane",
+            "bus",
+            "train",
+            "truck",
+            "boat",
+            "traffic light",
+            "fire hydrant",
+            "stop sign",
+            "parking meter",
+            "bench",
+            "bird",
+            "cat",
+            "dog",
+            "horse",
+            "sheep",
+            "cow",
+            "elephant",
+            "bear",
+            "zebra",
+            "giraffe",
+            "backpack",
+            "umbrella",
+            "handbag",
+            "tie",
+            "suitcase",
+            "frisbee",
+            "skis",
+            "snowboard",
+            "sports ball",
+            "kite",
+            "baseball bat",
+            "baseball glove",
+            "skateboard",
+            "surfboard",
+            "tennis racket",
+            "bottle",
+            "wine glass",
+            "cup",
+            "fork",
+            "knife",
+            "spoon",
+            "bowl",
+            "banana",
+            "apple",
+            "sandwich",
+            "orange",
+            "broccoli",
+            "carrot",
+            "hot dog",
+            "pizza",
+            "donut",
+            "cake",
+            "chair",
+            "couch",
+            "potted plant",
+            "bed",
+            "dining table",
+            "toilet",
+            "tv",
+            "laptop",
+            "mouse",
+            "remote",
+            "keyboard",
+            "cell phone",
+            "microwave",
+            "oven",
+            "toaster",
+            "sink",
+            "refrigerator",
+            "book",
+            "clock",
+            "vase",
+            "scissors",
+            "teddy bear",
+            "hair drier",
+            "toothbrush"
+        )
+        val size = entities.size
+        val randomIndex = Random.nextInt(size)
         labels = FileUtil.loadLabels(this,"labels.txt")
         imageProcessor = ImageProcessor.Builder().add(ResizeOp(300,300,ResizeOp.ResizeMethod.BILINEAR)).build()
         model = SsdMobilenetV11Metadata1.newInstance(this)
@@ -77,7 +162,6 @@ class ObjectDetection : AppCompatActivity() {
 
             override fun onSurfaceTextureAvailable(p0: SurfaceTexture, p1: Int, p2: Int) {
                 open_camera()
-
             }
 
             override fun onSurfaceTextureSizeChanged(p0: SurfaceTexture, p1: Int, p2: Int){
@@ -94,14 +178,12 @@ class ObjectDetection : AppCompatActivity() {
 // Creates inputs for reference.
                 var image = TensorImage.fromBitmap(bitmap)
                 image = imageProcessor.process(image)
-
 // Runs model inference and gets result.
                 val outputs = model.process(image)
                 val locations = outputs.locationsAsTensorBuffer.floatArray
                 val classes = outputs.classesAsTensorBuffer.floatArray
                 val scores = outputs.scoresAsTensorBuffer.floatArray
 //                val numberOfDetections = outputs.numberOfDetectionsAsTensorBuffer.floatArray
-
                 var mutable = bitmap.copy(Bitmap.Config.ARGB_8888,true)
                 val canvas = Canvas(mutable)
 
@@ -114,16 +196,17 @@ class ObjectDetection : AppCompatActivity() {
                     x = index
                     x *= 4
                     if(fl > 0.6){ // if confidence greater than 60%
-                        Toast.makeText(applicationContext,  "search for keyboard", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,  "search for ${entities[randomIndex]}", Toast.LENGTH_SHORT).show()
                         paint.setColor(colors.get(index))
                         paint.style = Paint.Style.STROKE
                         canvas.drawRect(RectF(locations.get(x+1)*w, locations.get(x)*h, locations.get(x+3)*w, locations.get(x+2)*h), paint)
                         paint.style = Paint.Style.FILL
                         canvas.drawText(labels.get(classes.get(index).toInt())+" "+fl.toString(), locations.get(x+1)*w, locations.get(x)*h, paint)
                         val textToExtract = labels.get(classes.get(index).toInt())
-                        if(textToExtract == "keyboard"){
+                        if(textToExtract == entities[randomIndex]){
                             Toast.makeText(applicationContext, "$textToExtract found", Toast.LENGTH_SHORT).show()
                             mp.stop()
+                            mp.release()
                             model.close()
                             finish()
                         }
