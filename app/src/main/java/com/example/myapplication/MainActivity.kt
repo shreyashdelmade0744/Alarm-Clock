@@ -63,21 +63,27 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                     val channelId = "my_channel_id"
                     val channelName = "My Channel"
-                    val importance = NotificationManager.IMPORTANCE_HIGH
-                    val channel = NotificationChannel(channelId, channelName, importance)
-                    val notificationManager = getSystemService(NotificationManager::class.java)
-                    notificationManager.createNotificationChannel(channel)
+//                    val importance = NotificationManager.IMPORTANCE_HIGH
+//                    val channel = NotificationChannel(channelId, channelName, importance)
+//                    val notificationManager = getSystemService(NotificationManager::class.java)
+//                    notificationManager.createNotificationChannel(channel)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val importance = NotificationManager.IMPORTANCE_DEFAULT
+                        val channel = NotificationChannel(channelId, channelName, importance)
+                        val notificationManager = getSystemService(NotificationManager::class.java)
+                        notificationManager.createNotificationChannel(channel)
 
-                    // Create a notification
-                    val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.cooku)
-                        .setContentTitle("Alarm Clock Running")
-                        .setContentText("Alarm is set for ${hour + hr}:${minutes + min} ")
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        // Create a notification
+                        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+                            .setSmallIcon(R.drawable.cooku)
+                            .setContentTitle("Alarm Clock Running")
+                            .setContentText("Alarm is set for ${hour + hr}:${minutes + min} ")
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
 
 // Post the notification
-                    val notificationId = 1  // Unique ID for the notification
-                    notificationManager.notify(notificationId, notificationBuilder.build())
+                        val notificationId = 1  // Unique ID for the notification
+                        notificationManager.notify(notificationId, notificationBuilder.build())
+                    }
 
                 } else {
                     Toast.makeText(

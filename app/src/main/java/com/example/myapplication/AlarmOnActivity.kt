@@ -12,6 +12,8 @@ import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,7 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
     private var buttonPressed = false
     private lateinit var button : Button
 //    private lateinit var button: Button
+    private lateinit var vibrator: Vibrator
     private val accelerationThreshold = 50.0f // Adjust this value based on sensitivity
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
@@ -32,8 +35,11 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_on)
 
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
         val mp = MediaPlayer.create(applicationContext, R.raw.alarm)
         mp.start()
+        startContinuousVibration()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -78,6 +84,14 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
 
     private fun calculateAcceleration(x: Float, y: Float, z: Float): Float {
         return Math.sqrt((x * x + y * y + z * z).toDouble()).toFloat()
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun startContinuousVibration() {
+        val vibrationEffect = VibrationEffect.createWaveform(
+            longArrayOf(0, 1000), // Vibration pattern (on, off) in milliseconds
+            0 // Repeat indefinitely
+        )
+        vibrator.vibrate(vibrationEffect)
     }
 }
 
