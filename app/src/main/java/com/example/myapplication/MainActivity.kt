@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -17,8 +18,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import org.w3c.dom.Text
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
+    lateinit var tts  : TextToSpeech
     private lateinit var time : EditText
     private lateinit var set : Button
     private var hour: Int = 0
@@ -61,12 +64,21 @@ class MainActivity : AppCompatActivity() {
                         "Alarm is set for ${hour + hr}:${minutes + min}",
                         Toast.LENGTH_LONG
                     ).show()
+
+                    var texxt = "Alarm is set for ${hour + hr}:${minutes + min}"
+                    tts = TextToSpeech(applicationContext,TextToSpeech.OnInitListener {
+                        if(it==TextToSpeech.SUCCESS){
+                            tts.language= Locale.ENGLISH
+                            tts.setSpeechRate(1.0f)
+                            tts.speak(texxt.toString(),TextToSpeech.QUEUE_ADD,null)
+
+                        }
+                    })
+
+
                     val channelId = "my_channel_id"
                     val channelName = "My Channel"
-//                    val importance = NotificationManager.IMPORTANCE_HIGH
-//                    val channel = NotificationChannel(channelId, channelName, importance)
-//                    val notificationManager = getSystemService(NotificationManager::class.java)
-//                    notificationManager.createNotificationChannel(channel)
+//
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         val importance = NotificationManager.IMPORTANCE_DEFAULT
                         val channel = NotificationChannel(channelId, channelName, importance)
@@ -75,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
                         // Create a notification
                         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                            .setSmallIcon(R.drawable.cooku)
+                            .setSmallIcon(R.mipmap.alarmlogo)
                             .setContentTitle("Alarm Clock Running")
                             .setContentText("Alarm is set for ${hour + hr}:${minutes + min} ")
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -98,3 +110,5 @@ class MainActivity : AppCompatActivity() {
         }
      }
 }
+
+

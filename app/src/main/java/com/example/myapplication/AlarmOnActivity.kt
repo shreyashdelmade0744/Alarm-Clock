@@ -38,6 +38,7 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         val mp = MediaPlayer.create(applicationContext, R.raw.alarm)
+        mp.isLooping = true
         mp.start()
         startContinuousVibration()
 

@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.os.FileUtils
 import android.os.Handler
 import android.os.HandlerThread
+import android.speech.tts.TextToSpeech
 import android.view.Surface
 import android.view.TextureView
 import android.widget.Button
@@ -35,6 +36,7 @@ import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import java.lang.reflect.Method
+import java.util.Locale
 import kotlin.random.Random
 
 class ObjectDetection : AppCompatActivity() {
@@ -48,6 +50,8 @@ class ObjectDetection : AppCompatActivity() {
 
     val paint = Paint()
 
+
+    lateinit var tts : TextToSpeech
     lateinit var randomButton : Button
     lateinit var randomText : TextView
     lateinit var imageProcessor : ImageProcessor
@@ -203,9 +207,7 @@ class ObjectDetection : AppCompatActivity() {
                         randomButton.setOnClickListener {
                             randomIndex = Random.nextInt(size)
                             randomText.text=entities[randomIndex].toString()
-
 //                            Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
-
                         }
                         paint.setColor(colors.get(index))
                         paint.style = Paint.Style.STROKE
