@@ -48,8 +48,6 @@
             android:name=".MainActivity"
             android:exported="false">
         </activity>
-
-        <receiver android:name=".MyBroadcastReceiver" />
     </application>
 
 </manifest>

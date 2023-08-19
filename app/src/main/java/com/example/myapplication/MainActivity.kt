@@ -18,16 +18,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import java.util.Calendar
 import java.util.Locale
-import java.util.TimerTask
-
-
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var tts  : TextToSpeech
-    private val handler = Handler()
-    private lateinit var updateTextRunnable: Runnable
     private lateinit var time : EditText
     private lateinit var set : Button
     private var hour: Int = 0
@@ -42,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         set = findViewById(R.id.SettingAlarm)
         time = findViewById(R.id.Time)
         timePicker  = findViewById(R.id.timePicker1)
-        var hr = timePicker.hour
-        var min = timePicker.minute
+        var hr = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        var min = Calendar.getInstance().get(Calendar.MINUTE)
 
 
         timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
@@ -54,18 +49,26 @@ class MainActivity : AppCompatActivity() {
             total = (((hour * 60 + minutes) * 60 * 1000).toLong())
 
             set.setOnClickListener {
-                Toast.makeText(applicationContext,"$total",Toast.LENGTH_SHORT).show()
-//                Toast.makeText(applicationContext,"$timeee",Toast.LENGTH_SHORT).show()
-//
+
+
                 if (total > 0) { // Ensure the alarm time is in the future
 //                    val i = Intent(applicationContext, MyBroadcastReceiver::class.java)
-                    val secsUntilOnTheMinute: Int = Calendar.getInstance().get(Calendar.SECOND)
-                    Toast.makeText(this, "$secsUntilOnTheMinute", Toast.LENGTH_SHORT).show()
+                    val hoursGoing : Int = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                    val secsGoing: Int = Calendar.getInstance().get(Calendar.SECOND)
+                    val minsGoing : Int = Calendar.getInstance().get(Calendar.MINUTE)
+                    hour = hourOfDay - hoursGoing
+                    minutes=minute - minsGoing
+                    total = (((hour * 60 + minutes) * 60 * 1000).toLong())
+
+//                    Toast.makeText(applicationContext,"$total",Toast.LENGTH_SHORT).show()
+
+//                    Toast.makeText(this, "$secsGoing", Toast.LENGTH_SHORT).show()
+
                     val handler = Handler(Looper.getMainLooper())
                     handler.postDelayed({
                         val intent = Intent(this,AlarmOnActivity::class.java)
                         startActivity(intent)
-                    },total-secsUntilOnTheMinute*1000)
+                    },total-secsGoing*1000)
 //                    val am: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 //                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + total, pi)
                     Toast.makeText(
