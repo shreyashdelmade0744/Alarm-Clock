@@ -201,9 +201,10 @@ class ObjectDetection : AppCompatActivity() {
                 scores.forEachIndexed { index, fl ->
                     x = index
                     x *= 4
+
+                    randomText.text=entities[randomIndex].toString()
                     if(fl > 0.6){ // if confidence greater than 60%
 //                        Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
-                        randomText.text=entities[randomIndex].toString()
                         randomButton.setOnClickListener {
                             randomIndex = Random.nextInt(size)
                             randomText.text=entities[randomIndex].toString()
