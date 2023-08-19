@@ -22,6 +22,7 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var datePicker : Button
     lateinit var tts  : TextToSpeech
     private lateinit var time : EditText
     private lateinit var set : Button
@@ -35,11 +36,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         set = findViewById(R.id.SettingAlarm)
-        time = findViewById(R.id.Time)
+//        time = findViewById(R.id.Time)
         timePicker  = findViewById(R.id.timePicker1)
         var hr = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         var min = Calendar.getInstance().get(Calendar.MINUTE)
-
 
         timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
             hour = hourOfDay - hr
@@ -118,7 +118,10 @@ class MainActivity : AppCompatActivity() {
                 }
         }
         }
+
      }
+
+
 }
 
 
