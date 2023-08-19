@@ -1,26 +1,29 @@
 package com.example.myapplication
 
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import org.w3c.dom.Text
+import java.util.Calendar
 import java.util.Locale
+import java.util.TimerTask
+
+
+
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var tts  : TextToSpeech
     private lateinit var time : EditText
     private lateinit var set : Button
@@ -39,26 +42,31 @@ class MainActivity : AppCompatActivity() {
         var min = timePicker.minute
 
 
+    val secsUntilOnTheMinute: Int = Calendar.getInstance().get(Calendar.SECOND)
+        Toast.makeText(this, "$secsUntilOnTheMinute", Toast.LENGTH_SHORT).show()
+
+
         timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
             hour = hourOfDay - hr
             minutes = minute - min
-            var timeee = System.currentTimeMillis()
+//            var timeee = System.currentTimeMillis()
 //            var calc = ((hour * 60 + minutes) * 60 * 1000).toLong()
-            total = (((hour * 60 + minutes) * 60 * 1000).toLong())
+            val secsUntilOnTheMinute: Int = Calendar.getInstance().get(Calendar.SECOND)
+            total = (((hour * 60 + minutes) * 60 * 1000).toLong())-secsUntilOnTheMinute
+
             set.setOnClickListener {
                 Toast.makeText(applicationContext,"$total",Toast.LENGTH_SHORT).show()
-                Toast.makeText(applicationContext,"$timeee",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext,"$timeee",Toast.LENGTH_SHORT).show()
 //
                 if (total > 0) { // Ensure the alarm time is in the future
-                    val i = Intent(applicationContext, MyBroadcastReceiver::class.java)
-                    val pi = PendingIntent.getBroadcast(
-                        applicationContext,
-                        111,
-                        i,
-                        PendingIntent.FLAG_IMMUTABLE // Use FLAG_UPDATE_CURRENT here
-                    )
-                    val am: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + total, pi)
+//                    val i = Intent(applicationContext, MyBroadcastReceiver::class.java)
+                    val handler = Handler(Looper.getMainLooper())
+                    handler.postDelayed({
+                        val intent = Intent(this,AlarmOnActivity::class.java)
+                        startActivity(intent)
+                    },total.toLong())
+//                    val am: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + total, pi)
                     Toast.makeText(
                         applicationContext,
                         "Alarm is set for ${hour + hr}:${minutes + min}",
@@ -76,8 +84,8 @@ class MainActivity : AppCompatActivity() {
                     })
 
 
-                    val channelId = "my_channel_id"
-                    val channelName = "My Channel"
+                    val channelId = "Alarm_Clock"
+                    val channelName = "Alarm_Clock"
 //
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         val importance = NotificationManager.IMPORTANCE_DEFAULT
@@ -105,10 +113,12 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                 }
         }
-
-
         }
      }
 }
+
+
+//-------------------------------------------------------------------------------------------------------
+
 
 
