@@ -15,7 +15,7 @@
    Get the APK from [here](https://drive.google.com/drive/folders/1y15MNwkxdY-XpE8VHYjj-RrnOC91BlNs)
 
 - More Into the project: \
-   Read more about out project from [here](https://docs.google.com/document/d/1CYb9gdIdOxOsKH-8sJVJGZeicx_KZf3BQClVt6UbLok/edit#heading=h.6p3jg976n91q)
+   Read more about out project from [here](https://docs.google.com/document/d/1CYb9gdIdOxOsKH-8sJVJGZeicx_KZf3BQClVt6UbLok/edit?usp=sharing)
 
 The best way to better explore all the features of the **Alarm-Clock** is to fork and try out the project yourself
 
