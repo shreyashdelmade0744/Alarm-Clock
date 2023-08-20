@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
                     handler.postDelayed({
                         val intent = Intent(this,AlarmOnActivity::class.java)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slidedownenter,R.anim.slidedownexit);
+
                     },total-secsGoing*1000)
 //                    val am: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 //                    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + total, pi)

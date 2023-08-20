@@ -12,9 +12,12 @@ import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
@@ -41,12 +44,14 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         mp.isLooping = true
         mp.start()
         startContinuousVibration()
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({Toast.makeText(this, "you can shake device to proceed or click stop", Toast.LENGTH_SHORT).show()
+        },1000)
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
         var button:Button = findViewById(R.id.stopbutton)
-
         button.setOnClickListener {
 //            mp.stop()
 //            this.finish()
