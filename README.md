@@ -12,7 +12,7 @@
 ## Explore the project
 
 - Try out our project: \
-   Get the APK from [here](https://drive.google.com/file/d/1WnSyFOqwyNFFqNK0ifVgmYRnc7ufZXCm/view?usp=sharing)
+   Get the APK from [here](https://drive.google.com/file/d/1howW1VQ2dLWMeMKrYTseCrsL4GjBd3Bt/view?usp=sharing)
 
 - More Into the project: \
    Read more about out project from [here](https://docs.google.com/document/d/1CYb9gdIdOxOsKH-8sJVJGZeicx_KZf3BQClVt6UbLok/edit?usp=sharing)
