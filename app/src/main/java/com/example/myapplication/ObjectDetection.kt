@@ -208,7 +208,7 @@ class ObjectDetection : AppCompatActivity() {
                         randomButton.setOnClickListener {
                             randomIndex = Random.nextInt(size)
                             randomText.text=entities[randomIndex].toString()
-//                            Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
+//                      Toast.makeText(applicationContext,  "search for ${entities[randomIndex]} to stop alarm", Toast.LENGTH_SHORT).show()
                         }
                         paint.setColor(colors.get(index))
                         paint.style = Paint.Style.STROKE

@@ -23,12 +23,12 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
 
 
     private lateinit var sensorManager: SensorManager
-    private var accelerometer: Sensor? = null
+    private var accelerometer: Sensor ?= null
     private var buttonPressed = false
     private lateinit var button : Button
 //    private lateinit var button: Button
     private lateinit var vibrator: Vibrator
-    private val accelerationThreshold = 50.0f // Adjust this value based on sensitivity
+    private val accelerationThreshold = 30.0f // Adjust this value based on sensitivity
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,8 +71,11 @@ class AlarmOnActivity : AppCompatActivity() , SensorEventListener {
         val acceleration = calculateAcceleration(event.values[0], event.values[1], event.values[2])
 
         if (!buttonPressed && acceleration > accelerationThreshold) {
-            button.performClick()
+//           button.performClick()
             buttonPressed = true
+            val intent = Intent(this,ObjectDetection::class.java)
+            startActivity(intent)
+//            buttonPressed = true
 
         } else if (buttonPressed && acceleration < accelerationThreshold) {
             buttonPressed = false
