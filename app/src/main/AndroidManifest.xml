@@ -40,13 +40,13 @@
 
         <activity
             android:name=".ObjectDetection"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AlarmOnActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
         </activity>
     </application>
 

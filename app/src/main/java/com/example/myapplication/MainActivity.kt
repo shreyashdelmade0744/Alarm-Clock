@@ -22,7 +22,7 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var datePicker : Button
+//    lateinit var datePicker : Button
     lateinit var tts  : TextToSpeech
     private lateinit var time : EditText
     private lateinit var set : Button
